@@ -1,7 +1,7 @@
-// Arquivo links.json
+
 {
     "instagram": "https://www.instagram.com/seu_usuario/",
     "facebook": "https://www.facebook.com/seu_usuario/",
     "discord": "https://discord.gg/seu_servidor/"
-    // Adicione mais plataformas conforme necessário
+   
 }
