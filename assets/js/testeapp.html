@@ -960,17 +960,41 @@ function openModal() {
             statusSelect.appendChild(option);
         });
 
+        // Campo para definir a data, aparece só se API for UPDATE e status for ACTIVE
+const dateInput = document.createElement('input');
+dateInput.type = 'datetime-local';
+dateInput.className = 'date-input'; // nova classe para estilos específicos se quiser
+dateInput.style.display = (api.API === 'UPDATE' && api.STATUS === 'ACTIVE') ? 'inline-block' : 'none';
+dateInput.value = api.DATA ? new Date(api.DATA).toISOString().slice(0, 16) : '';
+
+
+        // Atualiza o campo DATA no JSON quando a data muda
+        dateInput.addEventListener('change', () => {
+            apiData[index].DATA = dateInput.value;
+        });
+
+        // Quando muda o status
         statusSelect.addEventListener('change', () => {
             apiData[index].STATUS = statusSelect.value;
+
+            // Só mostra o campo de data se for UPDATE e ACTIVE
+            if (api.API === 'UPDATE' && statusSelect.value === 'ACTIVE') {
+                dateInput.style.display = 'inline-block';
+            } else {
+                dateInput.style.display = 'none';
+                delete apiData[index].DATA; // remove a data se não for mais UPDATE ativo
+            }
         });
 
         apiItem.appendChild(apiName);
         apiItem.appendChild(statusSelect);
+        apiItem.appendChild(dateInput);
         apiList.appendChild(apiItem);
     });
 
     document.getElementById('apiModal').style.display = 'flex';
 }
+
 
 // Fechar o modal
 function closeModal() {
