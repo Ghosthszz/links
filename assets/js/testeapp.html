@@ -518,6 +518,34 @@ input:focus {
 </div>
 <div id="toast" class="toast"></div>
 
+<div id="imageViewer" style="
+    display:none;
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(0,0,0,0.8);
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+">
+    <span id="closeImageViewer" style="
+        position:absolute;
+        top:20px;
+        right:30px;
+        font-size:40px;
+        color:white;
+        cursor:pointer;
+        font-weight:bold;
+        user-select:none;
+    ">×</span>
+
+    <img id="viewerImg" style="
+        max-width:90%;
+        max-height:90%;
+        border-radius:10px;
+        box-shadow:0 0 15px rgba(0,0,0,0.7);
+    ">
+</div>
 
   <script>
 
@@ -633,6 +661,28 @@ function showToast(message, duration = 3000, type = 'error') {
     await updateUser(userId, { password: 'llsecrets2025' });
 showToast("Senha redefinida com sucesso para 'llsecrets2025'!", 3000, 'success');
   }
+
+// Detectar duplo clique dentro da modal
+document.getElementById('apiModal').addEventListener('dblclick', function () {
+    const img = document.querySelector('#apiModal img'); // pega a imagem da modal
+
+    if (img && img.src && img.style.display !== 'none') {
+        document.getElementById('viewerImg').src = img.src;
+        document.getElementById('imageViewer').style.display = 'flex';
+    }
+});
+
+// Botão X para fechar
+document.getElementById('closeImageViewer').addEventListener('click', function () {
+    document.getElementById('imageViewer').style.display = 'none';
+});
+
+// Fechar clicando fora da imagem
+document.getElementById('imageViewer').addEventListener('click', function (e) {
+    if (e.target.id === 'imageViewer') {
+        document.getElementById('imageViewer').style.display = 'none';
+    }
+});
 
   async function toggleUserStatus(userId, isActive) {
     await updateUser(userId, { active: !isActive });
