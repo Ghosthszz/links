@@ -919,6 +919,16 @@ function filterUsers(event) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
 function downloadUserData(userId) {
   const user = allUsers.find(u => u.id === userId);
   if (!user) {
@@ -942,20 +952,24 @@ Banido: ${user.ban ? 'Sim' : 'Não'}
 Packs: ${user.id_links}
 
 COMPRAS PELO SITE: ${user.id_compras}
-  `.trim();
+`.trim();
 
-  // Cria e baixa o arquivo .txt
-  const blob = new Blob([userDataText], { type: "text/plain" });
-  const url = URL.createObjectURL(blob);
+  const encoded = encodeURIComponent(userDataText);
 
   const link = document.createElement("a");
-  link.href = url;
+  link.href = "data:text/plain;charset=utf-8," + encoded;
   link.download = `DADOS_${user.id}.txt`;
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-  URL.revokeObjectURL(url);
 }
+
+
+
+
+
+
+
 
 
 
